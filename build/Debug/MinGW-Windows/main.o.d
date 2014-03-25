@@ -40,7 +40,11 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../Libs/SDL2-2.0.3/include/SDL_render.h \
  ../Libs/SDL2-2.0.3/include/SDL_system.h \
  ../Libs/SDL2-2.0.3/include/SDL_timer.h \
- ../Libs/SDL2-2.0.3/include/SDL_version.h
+ ../Libs/SDL2-2.0.3/include/SDL_version.h \
+ ../Libs/i686-w64-mingw32/include/SDL2/SDL_image.h \
+ ../Libs/SDL2-2.0.3/include/SDL_version.h \
+ ../Libs/SDL2-2.0.3/include/begin_code.h \
+ ../Libs/SDL2-2.0.3/include/close_code.h
 
 ../Libs/SDL2-2.0.3/include/SDL.h:
 
@@ -127,3 +131,11 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 ../Libs/SDL2-2.0.3/include/SDL_timer.h:
 
 ../Libs/SDL2-2.0.3/include/SDL_version.h:
+
+../Libs/i686-w64-mingw32/include/SDL2/SDL_image.h:
+
+../Libs/SDL2-2.0.3/include/SDL_version.h:
+
+../Libs/SDL2-2.0.3/include/begin_code.h:
+
+../Libs/SDL2-2.0.3/include/close_code.h:
