@@ -60,7 +60,7 @@ LDLIBSOPTIONS=-L../Libs/SDL2-2.0.3/lib/x86 -L../Libs/i686-w64-mingw32/lib -lSDL2
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -mwindows -lSDL2main -lSDL2 -lSDL2_image
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

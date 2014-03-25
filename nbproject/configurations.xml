@@ -51,7 +51,7 @@
             <linkerLibLibItem>SDL2main</linkerLibLibItem>
             <linkerLibLibItem>SDL2_image</linkerLibLibItem>
           </linkerLibItems>
-          <commandLine>-lmingw32 -lSDL2main -lSDL2 -lSDL2_image</commandLine>
+          <commandLine>-lmingw32 -mwindows -lSDL2main -lSDL2 -lSDL2_image</commandLine>
         </linkerTool>
       </compileType>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
