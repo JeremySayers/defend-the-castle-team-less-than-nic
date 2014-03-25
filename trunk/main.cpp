@@ -14,6 +14,8 @@ const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 bool quit = false;
 bool fullscreen = false;
+bool playHover = false;
+SDL_Event e;
 
 bool initSDL();
 bool initRenderer();
@@ -28,9 +30,13 @@ void paint();
 SDL_Texture* loadTexture(std::string);
 
 SDL_Window* GameWindow = NULL;
-SDL_Texture* MainMenuTexture = NULL;
 SDL_Renderer* GameRenderer = NULL;
-SDL_Event e;
+
+SDL_Texture* MainMenuTexture = NULL;
+SDL_Texture* PlayRest = NULL;
+SDL_Texture* PlayHover = NULL;
+
+SDL_Rect PlayRect;
 
 int main(int argc, char** argv) {
     if (!initSDL()) close();
@@ -102,6 +108,13 @@ SDL_Texture* loadTexture(std::string path){
 }
 bool loadMedia(){
     MainMenuTexture = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\MainMenuImage.png");
+    
+    PlayRect.x = (SCREEN_WIDTH/2)-75;
+    PlayRect.y = (SCREEN_HEIGHT/2) + 50;
+    PlayRect.w = 150;
+    PlayRect.h = 60;
+    PlayRest = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\PlayRest.png");
+    PlayHover = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\PlayHover.png");
     if (MainMenuTexture == NULL){
         printf("Dat image, ya nope not here: %s\n", SDL_GetError());
         return false;
@@ -120,6 +133,7 @@ void gameloop(){
 
 void eventHandler(){
     while (SDL_PollEvent(&e) != 0) {
+        
         if (e.type == SDL_QUIT) {
             quit = true;
         }
@@ -157,12 +171,25 @@ void eventHandler(){
             SDL_GetMouseState(&x, &y);
             if ((x > 242 && x < 391) && (y > 269 && y < 344)) quit = true;
         }
+        
+        if (e.type == SDL_MOUSEMOTION){
+            int x,y;
+            SDL_GetMouseState(&x, &y);
+            if ((x > 242 && x < 391) && (y > 269 && y < 344)) playHover = true;
+            else playHover = false;
+        }
     }
+}
+
+void renderPlayButton(){
+    if (playHover) SDL_RenderCopy(GameRenderer, PlayHover, NULL, &PlayRect);
+    else SDL_RenderCopy(GameRenderer, PlayRest, NULL, &PlayRect);
 }
 
 void paint(){
     SDL_RenderClear(GameRenderer);
     SDL_RenderCopy(GameRenderer, MainMenuTexture, NULL, NULL);
+    renderPlayButton();
     SDL_RenderPresent(GameRenderer);
 }
 
