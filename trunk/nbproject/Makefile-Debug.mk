@@ -52,20 +52,20 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../Libs/SDL2-2.0.3/lib/x86 -L../Libs/i686-w64-mingw32/lib -lSDL2 -lSDL2main -lSDL2_image
+LDLIBSOPTIONS=-L../../../Downloads/SDL2-2.0.3/lib/x86 -L../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/lib -lSDL2 -lSDL2main -lSDL2_image
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle.exe
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trunk.exe
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle.exe: ${OBJECTFILES}
+${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trunk.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -mwindows -lSDL2main -lSDL2 -lSDL2_image
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trunk ${OBJECTFILES} ${LDLIBSOPTIONS} -lmingw32 -mwindows -lSDL2main -lSDL2 -lSDL2_image
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../Libs/SDL2-2.0.3/include -I../Libs/i686-w64-mingw32/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I../../../Downloads/SDL2-2.0.3/include -I../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
@@ -73,7 +73,7 @@ ${OBJECTDIR}/main.o: main.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle.exe
+	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/trunk.exe
 
 # Subprojects
 .clean-subprojects:

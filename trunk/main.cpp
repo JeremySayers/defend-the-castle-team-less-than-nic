@@ -119,14 +119,14 @@ SDL_Texture* loadTexture(std::string path){
     return newTexture;
 }
 bool loadMedia(){
-    MainMenuTexture = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\MainMenuImage.png");
+    MainMenuTexture = loadTexture("C:/Users/jsayers/Documents/NetBeansProjects/trunk/dist/Debug/MinGW-Windows/Images/Background.png");
     
     PlayRect.x = (SCREEN_WIDTH/2)-75;
     PlayRect.y = (SCREEN_HEIGHT/2) + 50;
     PlayRect.w = 150;
     PlayRect.h = 60;
-    PlayRest = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\PlayRest.png");
-    PlayHover = loadTexture("C:\\Users\\Jeremy\\Documents\\NetBeansProjects\\Defend the Castle\\dist\\Debug\\MinGW-Windows\\Images\\PlayHover.png");
+    PlayRest = loadTexture("C:\\Users\\jsayers\\Documents\\NetBeansProjects\\trunk\\dist\\Debug\\MinGW-Windows\\Images\\PlayRest.png");
+    PlayHover = loadTexture("C:\\Users\\jsayers\\Documents\\NetBeansProjects\\trunk\\dist\\Debug\\MinGW-Windows\\Images\\PlayHover.png");
     if (MainMenuTexture == NULL){
         printf("Dat image, ya nope not here: %s\n", SDL_GetError());
         return false;
@@ -211,4 +211,3 @@ void close(){
     SDL_DestroyTexture(MainMenuTexture);
     SDL_Quit();
 }
-

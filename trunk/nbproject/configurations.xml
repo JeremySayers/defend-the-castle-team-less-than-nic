@@ -37,14 +37,14 @@
       <compileType>
         <ccTool>
           <incDir>
-            <pElem>../Libs/SDL2-2.0.3/include</pElem>
-            <pElem>../Libs/i686-w64-mingw32/include/SDL2</pElem>
+            <pElem>../../../Downloads/SDL2-2.0.3/include</pElem>
+            <pElem>../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/include/SDL2</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
-            <pElem>../Libs/SDL2-2.0.3/lib/x86</pElem>
-            <pElem>../Libs/i686-w64-mingw32/lib</pElem>
+            <pElem>../../../Downloads/SDL2-2.0.3/lib/x86</pElem>
+            <pElem>../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>SDL2</linkerLibLibItem>
