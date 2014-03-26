@@ -1,9 +1,11 @@
 /* 
  * File:   main.cpp
- * Author: Jeremy
+ * Author: Jeremy Sayers
  *
  * Created on March 24, 2014, 11:00 PM
  */
+ 
+//Includes 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
@@ -17,33 +19,40 @@ bool fullscreen = false;
 bool playHover = false;
 SDL_Event e;
 
+//Initilizing functions and some helpful ones
 bool initSDL();
 bool initRenderer();
 bool initGraphics();
 bool loadMedia();
-void pngLoading();
+bool initPNGLoading();
 void close();
 void gameloop();
 void eventHandler();
 void paint();
 
+//Texture loading functio
 SDL_Texture* loadTexture(std::string);
 
+//Sets up the window and the renderer, MUST BE NULL
 SDL_Window* GameWindow = NULL;
 SDL_Renderer* GameRenderer = NULL;
 
+//Some texture objects
 SDL_Texture* MainMenuTexture = NULL;
 SDL_Texture* PlayRest = NULL;
 SDL_Texture* PlayHover = NULL;
 
+//A rect object to hold the position of the button
 SDL_Rect PlayRect;
 
 int main(int argc, char** argv) {
+    //Sets everything up, closes if it fails
     if (!initSDL()) close();
     if (!initGraphics()) close();
     if (!initRenderer()) close();
+    if (!initPNGLoading()) close;
     if (!loadMedia()) close;
-    pngLoading();
+    
     
     gameloop();
 
@@ -82,10 +91,13 @@ bool initGraphics() {
     }
 }
 
-void pngLoading(){
+bool initPNGLoading(){
     int imgFlags = IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)){
         printf("Nope");
+        return false;
+    } else {
+        return true;
     }
 }
 
@@ -194,6 +206,7 @@ void paint(){
 }
 
 void close(){
+    SDL_DestroyRenderer(GameRenderer);
     SDL_DestroyWindow(GameWindow);
     SDL_DestroyTexture(MainMenuTexture);
     SDL_Quit();
