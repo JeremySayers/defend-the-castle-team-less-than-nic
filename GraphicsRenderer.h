@@ -24,13 +24,14 @@ class GraphicsRenderer {
         int SCREEN_WIDTH;
     
     public:
-        void setFullscreen(bool);
         GraphicsRenderer(int, int);
+        
         SDL_Texture* loadTexture(std::string);
         void renderTexture(SDL_Texture*, SDL_Rect);
         void renderTexture(SDL_Texture*);
         void renderClear();
         void renderPresent();
+        void setFullscreen(bool);
 };
 
 #endif	/* GRAPHICSRENDERER_H */

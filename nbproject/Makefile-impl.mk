@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=Defend the Castle
+PROJECTNAME=trunk
 
 # Active Configuration
 DEFAULTCONF=Debug
