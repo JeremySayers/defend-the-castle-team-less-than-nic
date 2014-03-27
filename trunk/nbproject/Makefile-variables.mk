@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=MinGW-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/MinGW-Windows
-CND_ARTIFACT_NAME_Debug=defend_the_castle
-CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/defend_the_castle
+CND_ARTIFACT_NAME_Debug=trunk
+CND_ARTIFACT_PATH_Debug=dist/Debug/MinGW-Windows/trunk
 CND_PACKAGE_DIR_Debug=dist/Debug/MinGW-Windows/package
-CND_PACKAGE_NAME_Debug=defendthecastle.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/defendthecastle.tar
+CND_PACKAGE_NAME_Debug=trunk.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/MinGW-Windows/package/trunk.tar
 # Release configuration
 CND_PLATFORM_Release=MinGW-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/MinGW-Windows
-CND_ARTIFACT_NAME_Release=defend_the_castle
-CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/defend_the_castle
+CND_ARTIFACT_NAME_Release=trunk
+CND_ARTIFACT_PATH_Release=dist/Release/MinGW-Windows/trunk
 CND_PACKAGE_DIR_Release=dist/Release/MinGW-Windows/package
-CND_PACKAGE_NAME_Release=defendthecastle.tar
-CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/defendthecastle.tar
+CND_PACKAGE_NAME_Release=trunk.tar
+CND_PACKAGE_PATH_Release=dist/Release/MinGW-Windows/package/trunk.tar
 #
 # include compiler specific variables
 #

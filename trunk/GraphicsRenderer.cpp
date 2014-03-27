@@ -76,8 +76,8 @@ void GraphicsRenderer::setFullscreen(bool full){
     } else {
         SDL_DestroyRenderer(GameRenderer);
         GameRenderer = NULL;
-        //SDL_DestroyWindow(GameWindow);
-        //GameWindow = SDL_CreateWindow("Defend the Castle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        SDL_DestroyWindow(GameWindow);
+        GameWindow = SDL_CreateWindow("Defend the Castle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         GameRenderer = SDL_CreateRenderer(GameWindow, -1, SDL_RENDERER_ACCELERATED);
     }
 }
