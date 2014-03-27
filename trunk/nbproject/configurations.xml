@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>GraphicsRenderer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,6 +13,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>GraphicsRenderer.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -37,14 +39,14 @@
       <compileType>
         <ccTool>
           <incDir>
-            <pElem>../../../Downloads/SDL2-2.0.3/include</pElem>
-            <pElem>../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/include/SDL2</pElem>
+            <pElem>../Libs/SDL2-2.0.3/include</pElem>
+            <pElem>../Libs/i686-w64-mingw32/include/SDL2</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
           <linkerAddLib>
-            <pElem>../../../Downloads/SDL2-2.0.3/lib/x86</pElem>
-            <pElem>../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/lib</pElem>
+            <pElem>../Libs/SDL2-2.0.3/lib/x86</pElem>
+            <pElem>../Libs/i686-w64-mingw32/lib</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>SDL2</linkerLibLibItem>
@@ -54,6 +56,10 @@
           <commandLine>-lmingw32 -mwindows -lSDL2main -lSDL2 -lSDL2_image</commandLine>
         </linkerTool>
       </compileType>
+      <item path="GraphicsRenderer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GraphicsRenderer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
@@ -77,6 +83,10 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="GraphicsRenderer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="GraphicsRenderer.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
     </conf>
