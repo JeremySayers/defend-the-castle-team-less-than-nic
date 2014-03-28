@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "GraphicsRenderer.h"
 #include <Windows.h>
+#include "MenuScreen.h"
 
 //GLOBAL VARIABLES
 const int SCREEN_WIDTH = 640;
@@ -22,11 +23,6 @@ bool playHover = false;
 SDL_Event e;
 
 //Initilizing functions and some helpful ones
-bool initSDL();
-bool initRenderer();
-bool initGraphics();
-bool loadMedia();
-bool initPNGLoading();
 void close();
 void gameloop();
 void eventHandler();
@@ -36,43 +32,17 @@ std::string exePath();
 
 //Don't use as a pointer for now, everything will work but fullscreen...
 GraphicsRenderer ren(SCREEN_HEIGHT, SCREEN_WIDTH);
+MenuScreen menuScreen(ren);
 
-
-//Some texture objects
-SDL_Texture* MainMenuTexture = NULL;
-SDL_Texture* PlayRest = NULL;
-SDL_Texture* PlayHover = NULL;
-
-//A rect object to hold the position of the button
-SDL_Rect PlayRect;
 
 int main(int argc, char** argv) {
     //Sets everything up, closes if it fails
     //GraphicsRenderer ren(SCREEN_HEIGHT, SCREEN_WIDTH);
-    loadMedia();
     gameloop();
 
     close();
 
     return 0;
-}
-
-bool loadMedia(){
-    MainMenuTexture = ren.loadTexture(exePath() + "\\Images\\Background.png");
-    
-    PlayRect.x = (SCREEN_WIDTH/2)-75;
-    PlayRect.y = (SCREEN_HEIGHT/2) + 50;
-    PlayRect.w = 150;
-    PlayRect.h = 60;
-    PlayRest = ren.loadTexture(exePath() + "\\Images\\PlayRest.png");
-    PlayHover = ren.loadTexture(exePath() + "\\Images\\PlayHover.png");
-    if (MainMenuTexture == NULL){
-        printf("Dat image, ya nope not here: %s\n", SDL_GetError());
-        return false;
-    } else {
-        return true;
-    }
-    
 }
 
 void gameloop(){
@@ -83,18 +53,20 @@ void gameloop(){
 }
 
 void eventHandler(){
-    while (SDL_PollEvent(&e) != 0) {  
+    while (SDL_PollEvent(&e) != 0) {
+        if (e.type == SDL_QUIT) quit = true;
+        
         if (e.type == SDL_KEYDOWN) {
  
             if (e.key.keysym.sym == SDLK_f) {
                 if (!fullscreen) {
                     ren.setFullscreen(true);
-                    loadMedia();
+                    menuScreen.loadMedia();
                     paint();
                     fullscreen = !fullscreen;
                 } else {
                     ren.setFullscreen(false);
-                    loadMedia();
+                    menuScreen.loadMedia();
                     paint();
                     fullscreen = !fullscreen;
                 }
@@ -119,23 +91,24 @@ void eventHandler(){
         }
     }
 }
-
+/*
 void renderPlayButton(){
     if (playHover) ren.renderTexture(PlayHover, PlayRect);
     else ren.renderTexture(PlayRest, PlayRect);
 }
+*/
 
 void paint(){
     ren.renderClear();
-    ren.renderTexture(MainMenuTexture);
-    renderPlayButton();
+    menuScreen.render();
+    //renderPlayButton();
     ren.renderPresent();
 }
 
 void close(){
     //SDL_DestroyRenderer(GameRenderer);
     //SDL_DestroyWindow(GameWindow);
-    SDL_DestroyTexture(MainMenuTexture);
+    //SDL_DestroyTexture(MainMenuTexture);
     SDL_Quit();
 }
 

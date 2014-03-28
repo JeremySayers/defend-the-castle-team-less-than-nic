@@ -25,7 +25,7 @@ class GraphicsRenderer {
     
     public:
         GraphicsRenderer(int, int);
-        
+        GraphicsRenderer();
         SDL_Texture* loadTexture(std::string);
         void renderTexture(SDL_Texture*, SDL_Rect);
         void renderTexture(SDL_Texture*);

@@ -20,6 +20,10 @@ GraphicsRenderer::GraphicsRenderer(int h, int w){
     if (!initPNGLoading());
 }
 
+GraphicsRenderer::GraphicsRenderer(){
+    
+}
+
 
 bool GraphicsRenderer::initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
