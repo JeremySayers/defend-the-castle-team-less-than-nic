@@ -1,4 +1,4 @@
-build/Debug/MinGW-Windows/main.o: main.cpp \
+build/Debug/MinGW-Windows/MenuScreen.o: MenuScreen.cpp \
  ../../../Downloads/SDL2-2.0.3/include/SDL.h \
  ../../../Downloads/SDL2-2.0.3/include/SDL_main.h \
  ../../../Downloads/SDL2-2.0.3/include/SDL_stdinc.h \
@@ -45,8 +45,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../../../Downloads/SDL2_image-2.0.0/i686-w64-mingw32/include/SDL2/SDL_image.h \
  ../../../Downloads/SDL2-2.0.3/include/SDL_version.h \
  ../../../Downloads/SDL2-2.0.3/include/begin_code.h \
- ../../../Downloads/SDL2-2.0.3/include/close_code.h GraphicsRenderer.h \
- MenuScreen.h
+ ../../../Downloads/SDL2-2.0.3/include/close_code.h MenuScreen.h \
+ GraphicsRenderer.h
 
 ../../../Downloads/SDL2-2.0.3/include/SDL.h:
 
@@ -142,6 +142,6 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 
 ../../../Downloads/SDL2-2.0.3/include/close_code.h:
 
-GraphicsRenderer.h:
-
 MenuScreen.h:
+
+GraphicsRenderer.h:
