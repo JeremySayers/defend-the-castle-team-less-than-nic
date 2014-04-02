@@ -15,7 +15,7 @@
 class MenuScreen {
     public:
         MenuScreen(GraphicsRenderer);
-        void render();
+        void render(bool);
         bool loadMedia();
     private:
         std::string exePath();

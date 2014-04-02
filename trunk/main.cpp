@@ -100,7 +100,7 @@ void renderPlayButton(){
 
 void paint(){
     ren.renderClear();
-    menuScreen.render();
+    menuScreen.render(playHover);
     //renderPlayButton();
     ren.renderPresent();
 }
