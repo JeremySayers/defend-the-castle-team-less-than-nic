@@ -10,9 +10,14 @@
 #include <SDL_image.h>
 #include <string>
 #include <stdio.h>
+#include <iostream>
 #include "GraphicsRenderer.h"
 #include <Windows.h>
 #include "MenuScreen.h"
+#include "GameScreen.h"
+
+
+using namespace std;
 
 //GLOBAL VARIABLES
 const int SCREEN_WIDTH = 640;
@@ -21,6 +26,13 @@ bool quit = false;
 bool fullscreen = false;
 bool playHover = false;
 SDL_Event e;
+
+//Keep track of what screen you are on.
+//0 = Menu; 1 = Game;
+int currentScreen = 0;
+
+unsigned int start;
+int FPS = 60;
 
 //Initilizing functions and some helpful ones
 void close();
@@ -33,6 +45,7 @@ std::string exePath();
 //Don't use as a pointer for now, everything will work but fullscreen...
 GraphicsRenderer ren(SCREEN_HEIGHT, SCREEN_WIDTH);
 MenuScreen menuScreen(ren);
+GameScreen gameScreen(ren);
 
 
 int main(int argc, char** argv) {
@@ -47,8 +60,16 @@ int main(int argc, char** argv) {
 
 void gameloop(){
     while (!quit) {
+        //Controls how fast the loop goes by grabbing the starting time.
+        start = SDL_GetTicks();
+        
         eventHandler();
         paint();
+        
+        //If the last iteration took less than 1/60th of a second delay for an 
+        //amount of time to make it so it did.
+        if (1000/FPS > SDL_GetTicks() - start)
+            SDL_Delay(1000/FPS - (SDL_GetTicks() - start));
     }
 }
 
@@ -61,12 +82,18 @@ void eventHandler(){
             if (e.key.keysym.sym == SDLK_f) {
                 if (!fullscreen) {
                     ren.setFullscreen(true);
-                    menuScreen.loadMedia();
+                    if (currentScreen == 0)
+                        menuScreen.loadMedia();
+                    else if (currentScreen == 1)
+                        gameScreen.loadMedia();
                     paint();
                     fullscreen = !fullscreen;
                 } else {
                     ren.setFullscreen(false);
-                    menuScreen.loadMedia();
+                    if (currentScreen == 0)
+                        menuScreen.loadMedia();
+                    else if (currentScreen == 1)
+                        gameScreen.loadMedia();
                     paint();
                     fullscreen = !fullscreen;
                 }
@@ -80,7 +107,8 @@ void eventHandler(){
         if (e.type == SDL_MOUSEBUTTONUP){
             int x,y;
             SDL_GetMouseState(&x, &y);
-            if ((x > 242 && x < 391) && (y > 269 && y < 344)) quit = true;
+            if ((x > 242 && x < 391) && (y > 269 && y < 344))
+                currentScreen = 1;
         }
         
         if (e.type == SDL_MOUSEMOTION){
@@ -100,7 +128,10 @@ void renderPlayButton(){
 
 void paint(){
     ren.renderClear();
-    menuScreen.render(playHover);
+    if (currentScreen == 0)
+        menuScreen.render(playHover);
+    else if (currentScreen == 1)
+        gameScreen.render();
     //renderPlayButton();
     ren.renderPresent();
 }
