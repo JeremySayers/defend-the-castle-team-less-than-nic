@@ -16,6 +16,10 @@ class GameScreen {
         GameScreen(GraphicsRenderer);
         void render();
         bool loadMedia();
+        void mainGameLoop();
+        void eventHandling(SDL_Event e);
+        
+        bool quitGame;
     private:
         std::string exePath();
 

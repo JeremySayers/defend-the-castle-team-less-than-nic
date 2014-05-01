@@ -27,6 +27,8 @@ bool fullscreen = false;
 bool playHover = false;
 SDL_Event e;
 
+bool keyEnter = false;
+
 //Keep track of what screen you are on.
 //0 = Menu; 1 = Game;
 int currentScreen = 0;
@@ -65,6 +67,11 @@ void gameloop(){
         
         eventHandler();
         paint();
+        if (currentScreen == 1){
+            gameScreen.mainGameLoop();
+            if (gameScreen.quitGame) quit = true;
+        }
+        
         
         //If the last iteration took less than 1/60th of a second delay for an 
         //amount of time to make it so it did.
@@ -73,49 +80,89 @@ void gameloop(){
     }
 }
 
-void eventHandler(){
+void eventHandler() {
     while (SDL_PollEvent(&e) != 0) {
-        if (e.type == SDL_QUIT) quit = true;
-        
-        if (e.type == SDL_KEYDOWN) {
- 
-            if (e.key.keysym.sym == SDLK_f) {
-                if (!fullscreen) {
-                    ren.setFullscreen(true);
-                    if (currentScreen == 0)
-                        menuScreen.loadMedia();
-                    else if (currentScreen == 1)
-                        gameScreen.loadMedia();
-                    paint();
-                    fullscreen = !fullscreen;
-                } else {
-                    ren.setFullscreen(false);
-                    if (currentScreen == 0)
-                        menuScreen.loadMedia();
-                    else if (currentScreen == 1)
-                        gameScreen.loadMedia();
-                    paint();
-                    fullscreen = !fullscreen;
+        if (currentScreen == 0) {
+            if (e.type == SDL_QUIT) quit = true;
+
+            if (e.type == SDL_KEYDOWN) {
+
+                if (e.key.keysym.sym == SDLK_f) {
+                    if (!fullscreen) {
+                        ren.setFullscreen(true);
+                        if (currentScreen == 0)
+                            menuScreen.loadMedia();
+                        else if (currentScreen == 1)
+                            gameScreen.loadMedia();
+                        paint();
+                        fullscreen = !fullscreen;
+                    } else {
+                        ren.setFullscreen(false);
+                        if (currentScreen == 0)
+                            menuScreen.loadMedia();
+                        else if (currentScreen == 1)
+                            gameScreen.loadMedia();
+                        paint();
+                        fullscreen = !fullscreen;
+                    }
+                }
+
+                if (e.key.keysym.sym == SDLK_ESCAPE) {
+                    quit = true;
                 }
             }
 
-            if (e.key.keysym.sym == SDLK_ESCAPE) {
-                quit = true;
+            if (e.type == SDL_MOUSEBUTTONUP) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                if ((x > 242 && x < 391) && (y > 269 && y < 344))
+                    currentScreen = 1;
             }
-        }
-        
-        if (e.type == SDL_MOUSEBUTTONUP){
-            int x,y;
-            SDL_GetMouseState(&x, &y);
-            if ((x > 242 && x < 391) && (y > 269 && y < 344))
-                currentScreen = 1;
-        }
-        
-        if (e.type == SDL_MOUSEMOTION){
-            int x,y;
-            SDL_GetMouseState(&x, &y);
-            if ((x > 242 && x < 391) && (y > 269 && y < 344)) playHover = true;
-            else playHover = false;
+
+            if (e.type == SDL_MOUSEMOTION) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                if ((x > 242 && x < 391) && (y > 269 && y < 344)) playHover = true;
+                else playHover = false;
+            }
+        } else if (currentScreen == 1) {
+            gameScreen.eventHandling(e);
+            /*
+            if (e.type == SDL_QUIT) quit = true;
+
+            if (e.type == SDL_KEYDOWN) {
+
+                if (e.key.keysym.sym == SDLK_f) {
+                    if (!fullscreen) {
+                        ren.setFullscreen(true);
+                        if (currentScreen == 0)
+                            menuScreen.loadMedia();
+                        else if (currentScreen == 1)
+                            gameScreen.loadMedia();
+                        paint();
+                        fullscreen = !fullscreen;
+                    } else {
+                        ren.setFullscreen(false);
+                        if (currentScreen == 0)
+                            menuScreen.loadMedia();
+                        else if (currentScreen == 1)
+                            gameScreen.loadMedia();
+                        paint();
+                        fullscreen = !fullscreen;
+                    }
+                }
+
+                if (e.key.keysym.sym == SDLK_ESCAPE) {
+                    quit = true;
+                }
+                
+                if (e.key.keysym.sym == SDLK_ENTER){
+                    keyEnter = true;
+                    gameScreen.grabKeys(keyEnter);
+                    keyEnter = false;
+                }
+            }
+            */
         }
     }
 }

@@ -8,7 +8,10 @@
 #include "EnemyOne.h"
 
 EnemyOne::EnemyOne() {
-    
+    enemyRect.x = 0;  
+    enemyRect.y = 380;
+    enemyRect.w = 166;
+    enemyRect.h = 64;
 }
 
 
