@@ -22,6 +22,8 @@ class GameScreen {
         bool quitGame;
     private:
         std::string exePath();
+        void enemyTick();
+        void spawnEnemy();
 
 };
 

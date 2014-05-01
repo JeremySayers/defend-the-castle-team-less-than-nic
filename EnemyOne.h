@@ -1,9 +1,9 @@
 /* 
  * File:   EnemyOne.h
  * Author: Jeremy
- *
  * Created on April 29, 2014, 6:43 PM
  */
+
 
 #include <SDL.h>
 
@@ -15,7 +15,13 @@ public:
     EnemyOne();
     int health;
     int currentAnimationFrame;
+    bool walkAnim;
+    bool attackAnim;
+    bool active;
     SDL_Rect enemyRect;
+    
+    void incrementAnimationFrame();
+    void resetAnimationFrame();
 private:
 
 };
