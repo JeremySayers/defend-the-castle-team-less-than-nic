@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/FireDefense.o \
 	${OBJECTDIR}/GameScreen.o \
 	${OBJECTDIR}/GraphicsRenderer.o \
+	${OBJECTDIR}/MagicGuy.o \
 	${OBJECTDIR}/MenuScreen.o \
 	${OBJECTDIR}/main.o
 
@@ -92,6 +93,11 @@ ${OBJECTDIR}/GraphicsRenderer.o: GraphicsRenderer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I../Libs/SDL2-2.0.3/include -I../Libs/i686-w64-mingw32/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GraphicsRenderer.o GraphicsRenderer.cpp
+
+${OBJECTDIR}/MagicGuy.o: MagicGuy.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I../Libs/SDL2-2.0.3/include -I../Libs/i686-w64-mingw32/include/SDL2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MagicGuy.o MagicGuy.cpp
 
 ${OBJECTDIR}/MenuScreen.o: MenuScreen.cpp 
 	${MKDIR} -p ${OBJECTDIR}
