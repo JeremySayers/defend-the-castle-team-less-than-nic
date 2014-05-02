@@ -28,6 +28,11 @@ class GameScreen {
         void spawnEnemy();
         void renderFireGuy();
         void renderMagicGuy();
+        void splitGold();
+        void renderGold();
+        void splitEnemiesKilled();
+        void renderEnemiesKilled();
+        void damageTick();
 
 };
 

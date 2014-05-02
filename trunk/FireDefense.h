@@ -14,6 +14,8 @@ class FireDefense {
 public:
     int amount;
     int currentAnimationFrame;
+    int damage;
+    int cost;
     FireDefense();
     SDL_Rect fireGuyRect;
     SDL_Rect amountRect;
