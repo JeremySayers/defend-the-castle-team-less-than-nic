@@ -8,6 +8,17 @@
 #include "MagicGuy.h"
 
 MagicGuy::MagicGuy() {
+    amount = 0;
+    currentAnimationFrame = 0;
     
+    magicGuyRect.x = 225;  
+    magicGuyRect.y = 195;
+    magicGuyRect.w = 160;
+    magicGuyRect.h = 100;
+    
+    amountRect.x = 355;  
+    amountRect.y = 180;
+    amountRect.w = 40;
+    amountRect.h = 40;
 }
 

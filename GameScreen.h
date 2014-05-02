@@ -27,6 +27,7 @@ class GameScreen {
         void enemyTick();
         void spawnEnemy();
         void renderFireGuy();
+        void renderMagicGuy();
 
 };
 

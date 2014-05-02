@@ -15,5 +15,9 @@ FireDefense::FireDefense() {
     fireGuyRect.y = 260;
     fireGuyRect.w = 100;
     fireGuyRect.h = 100;
+    amountRect.x = 430;  
+    amountRect.y = 270;
+    amountRect.w = 40;
+    amountRect.h = 40;
 }
 

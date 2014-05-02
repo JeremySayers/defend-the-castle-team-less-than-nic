@@ -20,6 +20,7 @@
 #include "FireDefense.h"
 #include <Windows.h>
 #include "Castle.h"
+#include "MagicGuy.h"
 
 using namespace std;
 
@@ -29,19 +30,28 @@ SDL_Texture* HealthBarFG;
 SDL_Texture* EnemyOneWalk[8];
 SDL_Texture* EnemyOneAttack[8];
 SDL_Texture* FireGuyDefense[24];
-SDL_Texture* MagicGuyDefense[18]
+SDL_Texture* MagicGuyDefense[18];
 SDL_Texture* Numbers[9];
+SDL_Texture* Plus;
+SDL_Texture* StatsBG;
+SDL_Texture* Coin;
 
+SDL_Rect StatsBGRect;
+SDL_Rect CoinRect;
 //Array of enemies.
 EnemyOne enemies[10000];
 int currentNumEnemies = 0;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+//Gold the player has
+int gold = 200;
+int goldDigits[10]
 //Castle Object
 Castle player;
 
 FireDefense fireDefense;
+MagicGuy magicDefense;
 int frameGap = 5;
 int frame = 0;
 int maxFrame = 60;
@@ -62,7 +72,7 @@ void GameScreen::mainGameLoop() {
     if (gameActive) {
         player.calcHealthBarFGWidth();
         timeSinceLastSpawn++;
-        if (timeSinceLastSpawn >= 40){
+        if (timeSinceLastSpawn >= 200){
             spawnEnemy();           
             
             timeSinceLastSpawn = 0;
@@ -82,6 +92,9 @@ void GameScreen::enemyTick(){
             if (fireDefense.currentAnimationFrame < 23)
                 fireDefense.currentAnimationFrame++;
             else fireDefense.currentAnimationFrame = 0;
+            if (magicDefense.currentAnimationFrame < 17)
+                magicDefense.currentAnimationFrame++;
+            else magicDefense.currentAnimationFrame = 0;
         }
         frame++;
     } else {
@@ -92,9 +105,9 @@ void GameScreen::enemyTick(){
                     enemies[i].incrementAnimationFrame();
                 else enemies[i].resetAnimationFrame();
             }
-           if (fireDefense.currentAnimationFrame < 23)
-                fireDefense.currentAnimationFrame++;
-            else fireDefense.currentAnimationFrame = 0;
+           if (magicDefense.currentAnimationFrame < 17)
+                magicDefense.currentAnimationFrame++;
+            else magicDefense.currentAnimationFrame = 0;
         }
     }
     for (int i = 0; i < currentNumEnemies; i++){
@@ -129,7 +142,23 @@ void GameScreen::enemyHealthBars(){
 }
 
 void GameScreen::renderFireGuy(){
+    renGame.renderTexture(Numbers[fireDefense.amount],fireDefense.amountRect);
+    SDL_Rect temp = fireDefense.amountRect;
+    temp.x+=20;
+    temp.w-=5;
+    temp.h-=5;
+    renGame.renderTexture(Plus,temp);
     renGame.renderTexture(FireGuyDefense[fireDefense.currentAnimationFrame], fireDefense.fireGuyRect);
+}
+
+void GameScreen::renderMagicGuy(){
+    renGame.renderTexture(Numbers[magicDefense.amount],magicDefense.amountRect);
+    SDL_Rect temp = magicDefense.amountRect;
+    temp.x+=20;
+    temp.w-=5;
+    temp.h-=5; 
+    renGame.renderTexture(Plus,temp);
+    renGame.renderTexture(MagicGuyDefense[magicDefense.currentAnimationFrame], magicDefense.magicGuyRect);
 }
 
 void GameScreen::spawnEnemy(){
@@ -146,6 +175,16 @@ GameScreen::GameScreen(GraphicsRenderer r) {
     quitGame = false;
     srand(time(NULL));    
 
+    StatsBGRect.x = 300;
+    StatsBGRect.y = 0;
+    StatsBGRect.w = 340;
+    StatsBGRect.h = 60;
+    
+    CoinRect.x = 310;
+    CoinRect.y = 5;
+    CoinRect.w = 16;
+    CoinRect.h = 16;
+    
     if (!loadMedia());
 }
 
@@ -161,12 +200,21 @@ void GameScreen::render() {
     castleHealthBar();
     enemyHealthBars();
     renderFireGuy();
+    renderMagicGuy();
+    renGame.renderTexture(StatsBG,StatsBGRect);
+    renGame.renderTexture(Coin,CoinRect);
 }
 
 bool GameScreen::loadMedia() {
     GameBackground = renGame.loadTexture(exePath() + "\\Images\\GameBackground.png");
     HealthBarBG = renGame.loadTexture(exePath() + "\\Images\\HealthBarBG.png");
     HealthBarFG = renGame.loadTexture(exePath() + "\\Images\\HealthBarFG.png");
+    
+    //Stats Background
+    StatsBG = renGame.loadTexture(exePath() + "\\Images\\GrayBlock.png");
+    
+    //Gold Coin
+    Coin = renGame.loadTexture(exePath() + "\\Images\\Coin.png");
     
     //FireGuy Frames
     FireGuyDefense[0] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire1.png");
@@ -194,6 +242,27 @@ bool GameScreen::loadMedia() {
     FireGuyDefense[22] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire23.png");
     FireGuyDefense[23] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire24.png");
     
+    //Magic Guy Defense
+    MagicGuyDefense[0] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M1.png");
+    MagicGuyDefense[1] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M2.png");
+    MagicGuyDefense[2] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M3.png");
+    MagicGuyDefense[3] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M4.png");
+    MagicGuyDefense[4] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M5.png");
+    MagicGuyDefense[5] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M6.png");
+    MagicGuyDefense[6] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M7.png");
+    MagicGuyDefense[7] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M8.png");
+    MagicGuyDefense[8] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M9.png");
+    MagicGuyDefense[9] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M10.png");
+    MagicGuyDefense[10] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M11.png");
+    MagicGuyDefense[11] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M12.png");
+    MagicGuyDefense[12] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M13.png");
+    MagicGuyDefense[13] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M14.png");
+    MagicGuyDefense[14] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M15.png");
+    MagicGuyDefense[15] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M16.png");
+    MagicGuyDefense[16] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M17.png");
+    MagicGuyDefense[17] = renGame.loadTexture(exePath() + "\\Images\\MagicGuy\\M18.png");
+    
+    
     //Numbers
     Numbers[0] = renGame.loadTexture(exePath() + "\\Images\\Sym\\0.png");
     Numbers[1] = renGame.loadTexture(exePath() + "\\Images\\Sym\\1.png");
@@ -206,6 +275,7 @@ bool GameScreen::loadMedia() {
     Numbers[8] = renGame.loadTexture(exePath() + "\\Images\\Sym\\8.png");
     Numbers[9] = renGame.loadTexture(exePath() + "\\Images\\Sym\\9.png");
     
+    Plus = renGame.loadTexture(exePath() + "\\Images\\Sym\\plus.png");
     
     //EnemyOneWalk Animations
     EnemyOneWalk[0] = renGame.loadTexture(exePath() + "\\Images\\EnemyOneAnimations\\Walk1.png");
