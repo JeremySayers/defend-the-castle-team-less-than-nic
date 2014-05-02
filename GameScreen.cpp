@@ -25,6 +25,7 @@
 using namespace std;
 
 SDL_Texture* GameBackground;
+SDL_Texture* GameOverBG;
 SDL_Texture* HealthBarBG;
 SDL_Texture* HealthBarFG;
 SDL_Texture* EnemyOneWalk[8];
@@ -74,7 +75,7 @@ bool keyEnterStore;
 bool displayEnemyOne = false;
 bool gameActive = false;
 int yOffset; 
-
+bool gameOverBool = false;
 int timeSinceLastSpawn = 0;
 
 GraphicsRenderer renGame;
@@ -94,7 +95,13 @@ void GameScreen::mainGameLoop() {
             if (spawnGap > 50) spawnGap-=30;
         }
         enemyTick();
+        if (player.health <= 0) gameOver();
     }
+}
+
+void GameScreen::gameOver(){
+    gameActive = false;
+    gameOverBool = true;
 }
 
 void GameScreen::enemyTick(){
@@ -259,6 +266,19 @@ void GameScreen::renderEnemiesKilled(){
     }
 }
 
+void GameScreen::renderGameOver(){
+    renGame.renderTexture(GameOverBG);
+    SDL_Rect j = CoinRect;
+    j.y+=200;
+    j.w+=100;
+    j.h+=100;
+    j.x-=100;
+    for (int i = enemiesKilledDigitNum-1; i >= 0; i--){
+        j.x-=10;
+        renGame.renderTexture(Numbers[enemiesKilledDigits[i]],j);
+    }
+}
+
 void GameScreen::renderMagicCost(){
     SDL_Rect temp = magicDefense.amountRect;
     temp.y-=10;
@@ -323,6 +343,7 @@ void GameScreen::render() {
     renderEnemiesKilled();
     if (magicPlusHover)renderMagicCost();
     if (firePlusHover)renderFireCost();
+    if (gameOverBool) renderGameOver();
 }
 
 bool GameScreen::loadMedia() {
@@ -332,6 +353,9 @@ bool GameScreen::loadMedia() {
     
     //Stats Background
     StatsBG = renGame.loadTexture(exePath() + "\\Images\\GrayBlock.png");
+    
+    //GameOver Background
+    GameOverBG = renGame.loadTexture(exePath() + "\\Images\\GameOver.png");
     
     //Gold Coin
     Coin = renGame.loadTexture(exePath() + "\\Images\\Coin.png");

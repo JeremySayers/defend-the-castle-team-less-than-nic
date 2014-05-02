@@ -14,10 +14,11 @@
 SDL_Texture* MainMenuTexture2;
 SDL_Texture* PlayRest2;
 SDL_Texture* PlayHover2;
+SDL_Texture* InButton;
 SDL_Texture* Title;
 SDL_Rect PlayRect2;
 SDL_Rect TitleRect;
-
+SDL_Rect InRect;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
@@ -43,12 +44,15 @@ void MenuScreen::render(bool playHover){
         renMenu.renderTexture(PlayHover2, PlayRect2);
     else
         renMenu.renderTexture(PlayRest2, PlayRect2);
+    renMenu.renderTexture(InButton, InRect);
 }
 
 bool MenuScreen::loadMedia(){
     MainMenuTexture2 = renMenu.loadTexture(exePath() + "\\Images\\Background.png");
     Title = renMenu.loadTexture(exePath() + "\\Images\\Title.png");
-            
+    
+    InButton = renMenu.loadTexture(exePath() + "\\Images\\InstructionButton.png");
+    
     TitleRect.x = (SCREEN_WIDTH/2)-200;  
     TitleRect.y = 100;
     TitleRect.w = 400;
@@ -58,6 +62,11 @@ bool MenuScreen::loadMedia(){
     PlayRect2.y = (SCREEN_HEIGHT/2) + 50;
     PlayRect2.w = 150;
     PlayRect2.h = 60;
+    
+    InRect.x = (SCREEN_WIDTH/2)-75;
+    InRect.y = (SCREEN_HEIGHT/2) + 150;
+    InRect.w = 150;
+    InRect.h = 60;
     
     PlayRest2 = renMenu.loadTexture(exePath() + "\\Images\\Play Black.png");
     PlayHover2 = renMenu.loadTexture(exePath() + "\\Images\\Play Yellow.png");
