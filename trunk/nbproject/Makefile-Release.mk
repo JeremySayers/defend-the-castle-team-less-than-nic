@@ -35,7 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Castle.o \
 	${OBJECTDIR}/EnemyOne.o \
+	${OBJECTDIR}/FireDefense.o \
 	${OBJECTDIR}/GameScreen.o \
 	${OBJECTDIR}/GraphicsRenderer.o \
 	${OBJECTDIR}/MenuScreen.o \
@@ -66,10 +68,20 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/defend_the_castle ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Castle.o: Castle.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Castle.o Castle.cpp
+
 ${OBJECTDIR}/EnemyOne.o: EnemyOne.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/EnemyOne.o EnemyOne.cpp
+
+${OBJECTDIR}/FireDefense.o: FireDefense.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FireDefense.o FireDefense.cpp
 
 ${OBJECTDIR}/GameScreen.o: GameScreen.cpp 
 	${MKDIR} -p ${OBJECTDIR}

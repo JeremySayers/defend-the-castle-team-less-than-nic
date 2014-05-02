@@ -1,3 +1,6 @@
+
+#include "GraphicsRenderer.h"
+
 /* 
  * File:   MenuScreen.cpp
  * Author: Jeremy Sayers
@@ -15,26 +18,31 @@
 #include "GameScreen.h"
 #include "EnemyOne.h"
 #include <Windows.h>
+#include "Castle.h"
 
 using namespace std;
 
 SDL_Texture* GameBackground;
+SDL_Texture* HealthBarBG;
+SDL_Texture* HealthBarFG;
 SDL_Texture* EnemyOneWalk[8];
 SDL_Texture* EnemyOneAttack[8];
 
 //Array of enemies.
-EnemyOne enemies[1000];
+EnemyOne enemies[10000];
 int currentNumEnemies = 0;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
+//Castle Object
+Castle player;
 int frameGap = 5;
 int frame = 0;
 int maxFrame = 60;
 
 bool keyEnterStore;
 bool displayEnemyOne = false;
-    
+bool gameActive = false;
 int yOffset; 
 
 int timeSinceLastSpawn = 0;
@@ -45,12 +53,16 @@ GraphicsRenderer renGame;
 bool gameStart = false;
 
 void GameScreen::mainGameLoop() {
-    timeSinceLastSpawn++;
-    if (timeSinceLastSpawn >= 10){
-        spawnEnemy();
-        timeSinceLastSpawn = 0;
+    if (gameActive) {
+        player.calcHealthBarFGWidth();
+        timeSinceLastSpawn++;
+        if (timeSinceLastSpawn >= 40){
+            spawnEnemy();           
+            
+            timeSinceLastSpawn = 0;
+        }
+        enemyTick();
     }
-    enemyTick();
 }
 
 void GameScreen::enemyTick(){
@@ -80,6 +92,27 @@ void GameScreen::enemyTick(){
             enemies[i].walkAnim = false;
             enemies[i].attackAnim = true;
         }
+        if (enemies[i].attackAnim){
+            player.health--;
+            player.calcHealthBarFGWidth();
+        }
+    }
+}
+
+void GameScreen::castleHealthBar(){
+    renGame.renderTexture(HealthBarBG, player.healthBarBG);
+    renGame.renderTexture(HealthBarFG, player.healthBarFG);
+}
+
+void GameScreen::enemyHealthBars(){
+    for (int i = 0; i < currentNumEnemies; i++){
+        enemies[i].calcHealthBarFGWidth();
+        enemies[i].healthBarBG.x = enemies[i].enemyRect.x+3;
+        enemies[i].healthBarBG.y = enemies[i].enemyRect.y-10;
+        enemies[i].healthBarFG.x = enemies[i].enemyRect.x+4;
+        enemies[i].healthBarFG.y = enemies[i].enemyRect.y-9;
+        renGame.renderTexture(HealthBarBG, enemies[i].healthBarBG);
+        renGame.renderTexture(HealthBarFG, enemies[i].healthBarFG);
     }
 }
 
@@ -104,15 +137,19 @@ void GameScreen::render() {
     renGame.renderTexture(GameBackground);
     for (int i = 0; i < currentNumEnemies; i++){
         if (enemies[i].walkAnim){
-            if (displayEnemyOne) renGame.renderTexture(EnemyOneWalk[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
+            renGame.renderTexture(EnemyOneWalk[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
         } else if (enemies[i].attackAnim){
             renGame.renderTexture(EnemyOneAttack[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
         }
     }
+    castleHealthBar();
+    enemyHealthBars();
 }
 
 bool GameScreen::loadMedia() {
     GameBackground = renGame.loadTexture(exePath() + "\\Images\\GameBackground.png");
+    HealthBarBG = renGame.loadTexture(exePath() + "\\Images\\HealthBarBG.png");
+    HealthBarFG = renGame.loadTexture(exePath() + "\\Images\\HealthBarFG.png");
     
     //EnemyOneWalk Animations
     EnemyOneWalk[0] = renGame.loadTexture(exePath() + "\\Images\\EnemyOneAnimations\\Walk1.png");
@@ -139,7 +176,7 @@ bool GameScreen::loadMedia() {
 void GameScreen::eventHandling(SDL_Event f){
     if (f.type == SDL_KEYDOWN){
         if (f.key.keysym.sym == SDLK_g){
-            displayEnemyOne = true;
+            gameActive = true;
         }
         if (f.key.keysym.sym == SDLK_ESCAPE){
             quitGame = true;

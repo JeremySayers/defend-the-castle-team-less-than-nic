@@ -14,14 +14,18 @@ class EnemyOne {
 public:
     EnemyOne();
     int health;
+    int healthMax;
     int currentAnimationFrame;
     bool walkAnim;
     bool attackAnim;
     bool active;
     SDL_Rect enemyRect;
+    SDL_Rect healthBarBG;
+    SDL_Rect healthBarFG;
     
     void incrementAnimationFrame();
     void resetAnimationFrame();
+    void calcHealthBarFGWidth();
 private:
 
 };
