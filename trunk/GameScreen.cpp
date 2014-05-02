@@ -17,6 +17,7 @@
 #include <string>
 #include "GameScreen.h"
 #include "EnemyOne.h"
+#include "FireDefense.h"
 #include <Windows.h>
 #include "Castle.h"
 
@@ -27,6 +28,9 @@ SDL_Texture* HealthBarBG;
 SDL_Texture* HealthBarFG;
 SDL_Texture* EnemyOneWalk[8];
 SDL_Texture* EnemyOneAttack[8];
+SDL_Texture* FireGuyDefense[24];
+SDL_Texture* MagicGuyDefense[18]
+SDL_Texture* Numbers[9];
 
 //Array of enemies.
 EnemyOne enemies[10000];
@@ -36,6 +40,8 @@ const int SCREEN_HEIGHT = 480;
 
 //Castle Object
 Castle player;
+
+FireDefense fireDefense;
 int frameGap = 5;
 int frame = 0;
 int maxFrame = 60;
@@ -73,6 +79,9 @@ void GameScreen::enemyTick(){
                     enemies[i].incrementAnimationFrame();
                 else enemies[i].resetAnimationFrame();
             }
+            if (fireDefense.currentAnimationFrame < 23)
+                fireDefense.currentAnimationFrame++;
+            else fireDefense.currentAnimationFrame = 0;
         }
         frame++;
     } else {
@@ -83,6 +92,9 @@ void GameScreen::enemyTick(){
                     enemies[i].incrementAnimationFrame();
                 else enemies[i].resetAnimationFrame();
             }
+           if (fireDefense.currentAnimationFrame < 23)
+                fireDefense.currentAnimationFrame++;
+            else fireDefense.currentAnimationFrame = 0;
         }
     }
     for (int i = 0; i < currentNumEnemies; i++){
@@ -116,6 +128,10 @@ void GameScreen::enemyHealthBars(){
     }
 }
 
+void GameScreen::renderFireGuy(){
+    renGame.renderTexture(FireGuyDefense[fireDefense.currentAnimationFrame], fireDefense.fireGuyRect);
+}
+
 void GameScreen::spawnEnemy(){
     yOffset = rand() % 40 + 1;
     
@@ -144,12 +160,52 @@ void GameScreen::render() {
     }
     castleHealthBar();
     enemyHealthBars();
+    renderFireGuy();
 }
 
 bool GameScreen::loadMedia() {
     GameBackground = renGame.loadTexture(exePath() + "\\Images\\GameBackground.png");
     HealthBarBG = renGame.loadTexture(exePath() + "\\Images\\HealthBarBG.png");
     HealthBarFG = renGame.loadTexture(exePath() + "\\Images\\HealthBarFG.png");
+    
+    //FireGuy Frames
+    FireGuyDefense[0] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire1.png");
+    FireGuyDefense[1] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire2.png");
+    FireGuyDefense[2] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire3.png");
+    FireGuyDefense[3] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire4.png");
+    FireGuyDefense[4] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire5.png");
+    FireGuyDefense[5] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire6.png");
+    FireGuyDefense[6] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire7.png");
+    FireGuyDefense[7] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire8.png");
+    FireGuyDefense[8] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire9.png");
+    FireGuyDefense[9] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire10.png");
+    FireGuyDefense[10] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire11.png");
+    FireGuyDefense[11] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire12.png");
+    FireGuyDefense[12] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire13.png");
+    FireGuyDefense[13] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire14.png");
+    FireGuyDefense[14] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire15.png");
+    FireGuyDefense[15] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire16.png");
+    FireGuyDefense[16] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire17.png");
+    FireGuyDefense[17] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire18.png");
+    FireGuyDefense[18] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire19.png");
+    FireGuyDefense[19] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire20.png");
+    FireGuyDefense[20] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire21.png");
+    FireGuyDefense[21] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire22.png");
+    FireGuyDefense[22] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire23.png");
+    FireGuyDefense[23] = renGame.loadTexture(exePath() + "\\Images\\FireGuy\\Fire24.png");
+    
+    //Numbers
+    Numbers[0] = renGame.loadTexture(exePath() + "\\Images\\Sym\\0.png");
+    Numbers[1] = renGame.loadTexture(exePath() + "\\Images\\Sym\\1.png");
+    Numbers[2] = renGame.loadTexture(exePath() + "\\Images\\Sym\\2.png");
+    Numbers[3] = renGame.loadTexture(exePath() + "\\Images\\Sym\\3.png");
+    Numbers[4] = renGame.loadTexture(exePath() + "\\Images\\Sym\\4.png");
+    Numbers[5] = renGame.loadTexture(exePath() + "\\Images\\Sym\\5.png");
+    Numbers[6] = renGame.loadTexture(exePath() + "\\Images\\Sym\\6.png");
+    Numbers[7] = renGame.loadTexture(exePath() + "\\Images\\Sym\\7.png");
+    Numbers[8] = renGame.loadTexture(exePath() + "\\Images\\Sym\\8.png");
+    Numbers[9] = renGame.loadTexture(exePath() + "\\Images\\Sym\\9.png");
+    
     
     //EnemyOneWalk Animations
     EnemyOneWalk[0] = renGame.loadTexture(exePath() + "\\Images\\EnemyOneAnimations\\Walk1.png");

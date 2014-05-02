@@ -8,8 +8,11 @@
 #include "FireDefense.h"
 
 FireDefense::FireDefense() {
-    fireGuyRect.x = 360;  
-    fireGuyRect.y = 270;
+    amount = 0;
+    currentAnimationFrame = 0;
+    
+    fireGuyRect.x = 358;  
+    fireGuyRect.y = 260;
     fireGuyRect.w = 100;
     fireGuyRect.h = 100;
 }
