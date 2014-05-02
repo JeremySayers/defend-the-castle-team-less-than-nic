@@ -31,9 +31,9 @@ SDL_Texture* EnemyOneWalk[8];
 SDL_Texture* EnemyOneAttack[8];
 SDL_Texture* FireGuyDefense[24];
 SDL_Texture* MagicGuyDefense[18];
-SDL_Texture* Numbers[9];
-SDL_Texture* Plus;
+SDL_Texture* Numbers[10];
 SDL_Texture* StatsBG;
+SDL_Texture* Plus;
 SDL_Texture* Coin;
 
 SDL_Rect StatsBGRect;
@@ -41,20 +41,27 @@ SDL_Rect CoinRect;
 //Array of enemies.
 EnemyOne enemies[10000];
 int currentNumEnemies = 0;
+int enemiesKilled = 0;
+int enemiesKilledDigits[10];
+int enemiesKilledDigitNum = 1;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
 //Gold the player has
 int gold = 200;
-int goldDigits[10]
+int goldDigits[10];
+int goldDigitNum = 3;
 //Castle Object
 Castle player;
 
 FireDefense fireDefense;
 MagicGuy magicDefense;
 int frameGap = 5;
+int spawnGap = 500;
 int frame = 0;
 int maxFrame = 60;
+
+int healthAdder = 5;
 
 bool keyEnterStore;
 bool displayEnemyOne = false;
@@ -72,10 +79,12 @@ void GameScreen::mainGameLoop() {
     if (gameActive) {
         player.calcHealthBarFGWidth();
         timeSinceLastSpawn++;
-        if (timeSinceLastSpawn >= 200){
+        splitGold();
+        splitEnemiesKilled();
+        if (timeSinceLastSpawn >= spawnGap){
             spawnEnemy();           
-            
             timeSinceLastSpawn = 0;
+            if (spawnGap > 50) spawnGap-=30;
         }
         enemyTick();
     }
@@ -98,6 +107,17 @@ void GameScreen::enemyTick(){
         }
         frame++;
     } else {
+        //DAMAGE TO ENEMIES DONE HERE BECAUSE IM LAZY AND THIS OCCURS ONCE
+        //A SECOND
+        damageTick();      
+        for (int i = 0; i < currentNumEnemies; i++){
+            if (enemies[i].health <= 0 && enemies[i].active){
+                enemies[i].active = false;
+                enemiesKilled++;
+                gold+=20;
+            }
+        }
+        
         frame = 0;
         if (frame%frameGap==0){
            for (int i = 0; i < currentNumEnemies; i++){
@@ -111,6 +131,7 @@ void GameScreen::enemyTick(){
         }
     }
     for (int i = 0; i < currentNumEnemies; i++){
+        if (enemies[i].active )
         if (enemies[i].enemyRect.x < 350){
             enemies[i].enemyRect.x++;
         } else {
@@ -131,13 +152,15 @@ void GameScreen::castleHealthBar(){
 
 void GameScreen::enemyHealthBars(){
     for (int i = 0; i < currentNumEnemies; i++){
-        enemies[i].calcHealthBarFGWidth();
-        enemies[i].healthBarBG.x = enemies[i].enemyRect.x+3;
-        enemies[i].healthBarBG.y = enemies[i].enemyRect.y-10;
-        enemies[i].healthBarFG.x = enemies[i].enemyRect.x+4;
-        enemies[i].healthBarFG.y = enemies[i].enemyRect.y-9;
-        renGame.renderTexture(HealthBarBG, enemies[i].healthBarBG);
-        renGame.renderTexture(HealthBarFG, enemies[i].healthBarFG);
+        if (enemies[i].active){
+            enemies[i].calcHealthBarFGWidth();
+            enemies[i].healthBarBG.x = enemies[i].enemyRect.x+3;
+            enemies[i].healthBarBG.y = enemies[i].enemyRect.y-10;
+            enemies[i].healthBarFG.x = enemies[i].enemyRect.x+4;
+            enemies[i].healthBarFG.y = enemies[i].enemyRect.y-9;
+            renGame.renderTexture(HealthBarBG, enemies[i].healthBarBG);
+            renGame.renderTexture(HealthBarFG, enemies[i].healthBarFG);
+        }
     }
 }
 
@@ -161,12 +184,71 @@ void GameScreen::renderMagicGuy(){
     renGame.renderTexture(MagicGuyDefense[magicDefense.currentAnimationFrame], magicDefense.magicGuyRect);
 }
 
+void GameScreen::damageTick(){
+    for (int i = 0; i < currentNumEnemies; i++){
+        enemies[i].health-=(fireDefense.damage*fireDefense.amount);
+        enemies[i].health-=(magicDefense.damage*magicDefense.amount);
+    }
+}
+
 void GameScreen::spawnEnemy(){
     yOffset = rand() % 40 + 1;
     
     enemies[currentNumEnemies].active = true;
     enemies[currentNumEnemies].enemyRect.y+=yOffset;
+    enemies[currentNumEnemies].health+=healthAdder;
+    enemies[currentNumEnemies].healthMax+=healthAdder;
+    healthAdder+=5;
     currentNumEnemies++;
+}
+
+void GameScreen::splitGold(){
+    int i = 0;
+    int tempGold = gold;
+    while (tempGold > 0){
+        goldDigits[i] = tempGold%10;
+        //cout << goldDigits[i];
+        tempGold/=10;
+        i++;
+    }
+    goldDigitNum = i;
+    cout << goldDigitNum;
+}
+
+void GameScreen::renderGold(){
+    SDL_Rect j = CoinRect;
+    j.y-=20;
+    j.w+=40;
+    j.h+=40;
+    j.x-=20;
+    for (int i = goldDigitNum-1; i >= 0; i--){
+        j.x+=25;
+        renGame.renderTexture(Numbers[goldDigits[i]],j);
+    }
+}
+
+void GameScreen::splitEnemiesKilled(){
+    int i = 0;
+    int tempEnemiesKilled = enemiesKilled;
+    while (tempEnemiesKilled > 0){
+        enemiesKilledDigits[i] = tempEnemiesKilled%10;
+        //cout << goldDigits[i];
+        tempEnemiesKilled/=10;
+        i++;
+    }
+    enemiesKilledDigitNum = i;
+}
+
+void GameScreen::renderEnemiesKilled(){
+    SDL_Rect j = CoinRect;
+    j.y-=20;
+    j.w+=40;
+    j.h+=40;
+    j.x+=100;
+    for (int i = enemiesKilledDigitNum-1; i >= 0; i--){
+        j.x+=25;
+        renGame.renderTexture(Numbers[enemiesKilledDigits[i]],j);
+    }
 }
 
 GameScreen::GameScreen(GraphicsRenderer r) {
@@ -191,10 +273,12 @@ GameScreen::GameScreen(GraphicsRenderer r) {
 void GameScreen::render() {
     renGame.renderTexture(GameBackground);
     for (int i = 0; i < currentNumEnemies; i++){
-        if (enemies[i].walkAnim){
-            renGame.renderTexture(EnemyOneWalk[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
-        } else if (enemies[i].attackAnim){
-            renGame.renderTexture(EnemyOneAttack[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
+        if (enemies[i].active){
+            if (enemies[i].walkAnim){
+                renGame.renderTexture(EnemyOneWalk[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
+            } else if (enemies[i].attackAnim){
+                renGame.renderTexture(EnemyOneAttack[enemies[i].currentAnimationFrame], enemies[i].enemyRect );
+            }
         }
     }
     castleHealthBar();
@@ -203,6 +287,8 @@ void GameScreen::render() {
     renderMagicGuy();
     renGame.renderTexture(StatsBG,StatsBGRect);
     renGame.renderTexture(Coin,CoinRect);
+    renderGold();
+    renderEnemiesKilled();
 }
 
 bool GameScreen::loadMedia() {

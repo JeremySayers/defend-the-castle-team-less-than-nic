@@ -13,6 +13,8 @@ class MagicGuy {
 public:
     int amount;
     int currentAnimationFrame;
+    int damage;
+    int cost;
     MagicGuy();
     SDL_Rect magicGuyRect;
     SDL_Rect amountRect;

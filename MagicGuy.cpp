@@ -8,8 +8,11 @@
 #include "MagicGuy.h"
 
 MagicGuy::MagicGuy() {
-    amount = 0;
+    amount = 1;
     currentAnimationFrame = 0;
+    
+    damage = 20;
+    cost = 375;
     
     magicGuyRect.x = 225;  
     magicGuyRect.y = 195;
