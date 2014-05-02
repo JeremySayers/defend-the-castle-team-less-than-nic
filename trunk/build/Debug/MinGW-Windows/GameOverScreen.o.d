@@ -1,4 +1,4 @@
-build/Debug/MinGW-Windows/main.o: main.cpp \
+build/Debug/MinGW-Windows/GameOverScreen.o: GameOverScreen.cpp \
  ../Libs/SDL2-2.0.3/include/SDL.h ../Libs/SDL2-2.0.3/include/SDL_main.h \
  ../Libs/SDL2-2.0.3/include/SDL_stdinc.h \
  ../Libs/SDL2-2.0.3/include/SDL_config.h \
@@ -44,8 +44,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../Libs/i686-w64-mingw32/include/SDL2/SDL_image.h \
  ../Libs/SDL2-2.0.3/include/SDL_version.h \
  ../Libs/SDL2-2.0.3/include/begin_code.h \
- ../Libs/SDL2-2.0.3/include/close_code.h GraphicsRenderer.h MenuScreen.h \
- GameScreen.h InstructionsScreen.h
+ ../Libs/SDL2-2.0.3/include/close_code.h MenuScreen.h GraphicsRenderer.h \
+ GameOverScreen.h
 
 ../Libs/SDL2-2.0.3/include/SDL.h:
 
@@ -141,10 +141,8 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 
 ../Libs/SDL2-2.0.3/include/close_code.h:
 
-GraphicsRenderer.h:
-
 MenuScreen.h:
 
-GameScreen.h:
+GraphicsRenderer.h:
 
-InstructionsScreen.h:
+GameOverScreen.h:

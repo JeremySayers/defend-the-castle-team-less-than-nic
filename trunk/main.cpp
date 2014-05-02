@@ -15,6 +15,7 @@
 #include <Windows.h>
 #include "MenuScreen.h"
 #include "GameScreen.h"
+#include "InstructionsScreen.h"
 
 
 using namespace std;
@@ -46,6 +47,7 @@ std::string exePath();
 
 //Don't use as a pointer for now, everything will work but fullscreen...
 GraphicsRenderer ren(SCREEN_HEIGHT, SCREEN_WIDTH);
+InstructionsScreen inScreen(ren);
 MenuScreen menuScreen(ren);
 GameScreen gameScreen(ren);
 
@@ -82,7 +84,7 @@ void gameloop(){
 
 void eventHandler() {
     while (SDL_PollEvent(&e) != 0) {
-        if (currentScreen == 0) {
+        if (currentScreen == 0 || currentScreen==2) {
             if (e.type == SDL_QUIT) quit = true;
 
             if (e.type == SDL_KEYDOWN) {
@@ -117,6 +119,20 @@ void eventHandler() {
                 SDL_GetMouseState(&x, &y);
                 if ((x > 242 && x < 391) && (y > 269 && y < 344))
                     currentScreen = 1;
+            }
+            
+            if (e.type == SDL_MOUSEBUTTONUP) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                if ((x > 242 && x < 391) && (y > 390 && y < 450))
+                    currentScreen = 2;
+            }
+            
+            if (e.type == SDL_MOUSEBUTTONUP) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+                if ((x > 450 && x < 640) && (y > 0 && y < 120))
+                    currentScreen = 0;
             }
 
             if (e.type == SDL_MOUSEMOTION) {
@@ -179,6 +195,8 @@ void paint(){
         menuScreen.render(playHover);
     else if (currentScreen == 1)
         gameScreen.render();
+    else if (currentScreen == 2)
+        inScreen.render();
     //renderPlayButton();
     ren.renderPresent();
 }

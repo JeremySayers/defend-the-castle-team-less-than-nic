@@ -35,6 +35,8 @@ class GameScreen {
         void renderMagicCost();
         void renderFireCost();
         void damageTick();
+        void gameOver();
+        void renderGameOver();
 
 };
 
