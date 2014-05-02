@@ -1,4 +1,4 @@
-build/Debug/MinGW-Windows/GameScreen.o: GameScreen.cpp GraphicsRenderer.h \
+build/Debug/MinGW-Windows/MagicGuy.o: MagicGuy.cpp MagicGuy.h \
  ../Libs/SDL2-2.0.3/include/SDL.h ../Libs/SDL2-2.0.3/include/SDL_main.h \
  ../Libs/SDL2-2.0.3/include/SDL_stdinc.h \
  ../Libs/SDL2-2.0.3/include/SDL_config.h \
@@ -40,14 +40,9 @@ build/Debug/MinGW-Windows/GameScreen.o: GameScreen.cpp GraphicsRenderer.h \
  ../Libs/SDL2-2.0.3/include/SDL_render.h \
  ../Libs/SDL2-2.0.3/include/SDL_system.h \
  ../Libs/SDL2-2.0.3/include/SDL_timer.h \
- ../Libs/SDL2-2.0.3/include/SDL_version.h \
- ../Libs/i686-w64-mingw32/include/SDL2/SDL_image.h \
- ../Libs/SDL2-2.0.3/include/SDL_version.h \
- ../Libs/SDL2-2.0.3/include/begin_code.h \
- ../Libs/SDL2-2.0.3/include/close_code.h GameScreen.h EnemyOne.h \
- FireDefense.h Castle.h MagicGuy.h
+ ../Libs/SDL2-2.0.3/include/SDL_version.h
 
-GraphicsRenderer.h:
+MagicGuy.h:
 
 ../Libs/SDL2-2.0.3/include/SDL.h:
 
@@ -134,21 +129,3 @@ GraphicsRenderer.h:
 ../Libs/SDL2-2.0.3/include/SDL_timer.h:
 
 ../Libs/SDL2-2.0.3/include/SDL_version.h:
-
-../Libs/i686-w64-mingw32/include/SDL2/SDL_image.h:
-
-../Libs/SDL2-2.0.3/include/SDL_version.h:
-
-../Libs/SDL2-2.0.3/include/begin_code.h:
-
-../Libs/SDL2-2.0.3/include/close_code.h:
-
-GameScreen.h:
-
-EnemyOne.h:
-
-FireDefense.h:
-
-Castle.h:
-
-MagicGuy.h:
