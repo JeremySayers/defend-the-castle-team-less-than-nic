@@ -18,12 +18,15 @@ class GameScreen {
         bool loadMedia();
         void mainGameLoop();
         void eventHandling(SDL_Event e);
+        void castleHealthBar();
+        void enemyHealthBars();
         
         bool quitGame;
     private:
         std::string exePath();
         void enemyTick();
         void spawnEnemy();
+        void renderFireGuy();
 
 };
 
