@@ -40,6 +40,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/FireDefense.o \
 	${OBJECTDIR}/GameScreen.o \
 	${OBJECTDIR}/GraphicsRenderer.o \
+	${OBJECTDIR}/InstructionsScreen.o \
 	${OBJECTDIR}/MagicGuy.o \
 	${OBJECTDIR}/MenuScreen.o \
 	${OBJECTDIR}/main.o
@@ -93,6 +94,11 @@ ${OBJECTDIR}/GraphicsRenderer.o: GraphicsRenderer.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GraphicsRenderer.o GraphicsRenderer.cpp
+
+${OBJECTDIR}/InstructionsScreen.o: InstructionsScreen.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/InstructionsScreen.o InstructionsScreen.cpp
 
 ${OBJECTDIR}/MagicGuy.o: MagicGuy.cpp 
 	${MKDIR} -p ${OBJECTDIR}
