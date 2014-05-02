@@ -8,8 +8,8 @@
 #include "Castle.h"
 
 Castle::Castle() {
-    healthMax = 30000;
-    health = 30000;
+    healthMax = 3000;
+    health = 3000;
     healthBarBG.x = 380;
     healthBarBG.y = 220;
     healthBarBG.w = 150;

@@ -32,6 +32,8 @@ class GameScreen {
         void renderGold();
         void splitEnemiesKilled();
         void renderEnemiesKilled();
+        void renderMagicCost();
+        void renderFireCost();
         void damageTick();
 
 };

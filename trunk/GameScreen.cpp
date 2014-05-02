@@ -36,6 +36,9 @@ SDL_Texture* StatsBG;
 SDL_Texture* Plus;
 SDL_Texture* Coin;
 
+bool magicPlusHover = false;
+bool firePlusHover = false;
+
 SDL_Rect StatsBGRect;
 SDL_Rect CoinRect;
 //Array of enemies.
@@ -46,6 +49,10 @@ int enemiesKilledDigits[10];
 int enemiesKilledDigitNum = 1;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+
+//Magic Cost display
+int magicCostDigits[3] = {5,7,3};
+int fireCostDigits[3] = {0,0,2};
 
 //Gold the player has
 int gold = 200;
@@ -131,16 +138,17 @@ void GameScreen::enemyTick(){
         }
     }
     for (int i = 0; i < currentNumEnemies; i++){
-        if (enemies[i].active )
-        if (enemies[i].enemyRect.x < 350){
-            enemies[i].enemyRect.x++;
-        } else {
-            enemies[i].walkAnim = false;
-            enemies[i].attackAnim = true;
-        }
-        if (enemies[i].attackAnim){
-            player.health--;
-            player.calcHealthBarFGWidth();
+        if (enemies[i].active ){
+            if (enemies[i].enemyRect.x < 350){
+                enemies[i].enemyRect.x++;
+            } else {
+                enemies[i].walkAnim = false;
+                enemies[i].attackAnim = true;
+            }
+            if (enemies[i].attackAnim){
+                player.health--;
+                player.calcHealthBarFGWidth();
+            }
         }
     }
 }
@@ -251,6 +259,30 @@ void GameScreen::renderEnemiesKilled(){
     }
 }
 
+void GameScreen::renderMagicCost(){
+    SDL_Rect temp = magicDefense.amountRect;
+    temp.y-=10;
+    temp.x-=20;
+    temp.w-=5;
+    temp.h-=5;
+    for (int i = 3-1; i >= 0; i--){
+        temp.x+=25;
+        renGame.renderTexture(Numbers[magicCostDigits[i]],temp);
+    }
+}
+
+void GameScreen::renderFireCost(){
+    SDL_Rect temp = fireDefense.amountRect;
+    temp.y-=10;
+    temp.x+=20;
+    temp.w-=5;
+    temp.h-=5;
+    for (int i = 3-1; i >= 0; i--){
+        temp.x+=25;
+        renGame.renderTexture(Numbers[fireCostDigits[i]],temp);
+    }
+}
+
 GameScreen::GameScreen(GraphicsRenderer r) {
     GameBackground = NULL;
     renGame = r;
@@ -289,6 +321,8 @@ void GameScreen::render() {
     renGame.renderTexture(Coin,CoinRect);
     renderGold();
     renderEnemiesKilled();
+    if (magicPlusHover)renderMagicCost();
+    if (firePlusHover)renderFireCost();
 }
 
 bool GameScreen::loadMedia() {
@@ -393,6 +427,59 @@ void GameScreen::eventHandling(SDL_Event f){
         if (f.key.keysym.sym == SDLK_ESCAPE){
             quitGame = true;
         }
+    }
+    
+    if (f.type == SDL_MOUSEMOTION) {
+        int x, y;
+        SDL_Rect temp = magicDefense.amountRect;
+        temp.x+=20;
+        temp.w-=5;
+        temp.h-=5;
+        SDL_GetMouseState(&x, &y);
+        if ((x > temp.x && x < temp.x+temp.w) && (y > temp.y && y < temp.y+temp.h)){
+            magicPlusHover = true;
+            cout << "ITS TRYE";
+        } else {
+            magicPlusHover = false;
+            cout << "NOPEPEPE";
+        }
+        SDL_Rect temp2 = fireDefense.amountRect;
+        temp2.x+=20;
+        temp2.w-=5;
+        temp2.h-=5;
+        if ((x > temp2.x && x < temp2.x+temp2.w) && (y > temp2.y && y < temp2.y+temp2.h)){
+            firePlusHover = true;
+            cout << "ITS TRYE";
+        } else {
+            firePlusHover = false;
+            cout << "NOPEPEPE";
+        }
+     }
+    
+    if (f.type == SDL_MOUSEBUTTONUP) {
+        int x, y;
+        SDL_Rect temp = magicDefense.amountRect;
+        temp.x+=20;
+        temp.w-=5;
+        temp.h-=5;
+        SDL_GetMouseState(&x, &y);
+        if ((x > temp.x && x < temp.x+temp.w) && (y > temp.y && y < temp.y+temp.h)){
+            if (gold >=magicDefense.cost){
+                magicDefense.amount++;
+                gold-=magicDefense.cost;
+            }
+        }
+        SDL_Rect temp2 = fireDefense.amountRect;
+        temp2.x+=20;
+        temp2.w-=5;
+        temp2.h-=5;
+        if ((x > temp2.x && x < temp2.x+temp2.w) && (y > temp2.y && y < temp2.y+temp2.h)){
+            if (gold >=fireDefense.cost){
+                fireDefense.amount++;
+                gold-=fireDefense.cost;
+            }
+        }
+        
     }
     
     if (f.type == SDL_QUIT){
